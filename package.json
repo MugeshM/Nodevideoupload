@@ -1,0 +1,16 @@
+{
+  "name": "fileupload",
+  "version": "1.0.0",
+  "description": "File upload from android",
+  "main": "index.js",
+  "scripts": {
+    "test": "node index"
+  },
+  "author": "Mugesh",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.13.4",
+    "multer": "^1.1.0",
+    "path": "^0.12.7"
+  }
+}
