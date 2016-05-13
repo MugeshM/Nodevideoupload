@@ -2,12 +2,13 @@
 <body>
 <form id="uploadForm"  enctype="multipart/form-data" action="/api/video"  method="post">
 <input type="file" name="uservideo" accept="video/*" />
+<input type="text" name="txt" />
 <input type="submit" value="Upload Video" name="submit">
 </form>
- <video width="320" height="240" controls>
-  <source src="localhost:3000/videos?name=mm.3gp" type="video/mp4">
-  <source src="movie.ogg" type="video/ogg">
-Your browser does not support the video tag.
-</video> 
+<form action="/text"  method="post" enctype="multipart/form-data" >
+<input type="text" name="txt" />
+<input type="file" name="uservideo" id="uservideo" accept="video/*" />
+<input type="submit" value="send" name="submit">
+</form> 
 </body>
 </html>
