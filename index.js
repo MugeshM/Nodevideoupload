@@ -1,9 +1,13 @@
 var express =   require("express");
 var multer  =   require('multer');
-var app         =   express();
 var path = require("path");
 var fs = require('fs');
+var app         =   express();
 var fname;
+var bodyParser = require('body-parser');
+app.use(bodyParser.json()); 
+app.use(bodyParser.urlencoded({ extended: true }));
+
 
 app.get("/videos", function(req,res) {
 	
@@ -36,6 +40,8 @@ var storage =   multer.diskStorage({
   },
   filename: function (req, file, callback) {
 	var name=file.originalname.replace(/\.[^/.]+$/, "")+ Date.now()+ path.extname(file.originalname);
+	name=name.replace(/ /g,"_");
+    name=name.replace(/[^a-zA-Z0-9._]/g, '');
     callback(null, name);
 	fname=name;
   }
@@ -58,6 +64,29 @@ app.post('/api/video',function(req,res){
         res.end(fname);
 		console.log("File is uploaded");
     });
+});
+
+app.get('/files',function(req,res){
+function getFiles (dir, files_){
+    files_ = files_ || [];
+    var files = fs.readdirSync(dir);
+    for (var i in files){
+        var name = dir + '/' + files[i];
+            files_.push(files[i]);
+        
+    }
+    return files_;
+}
+console.log(getFiles('uploads'))
+res.send({"files":getFiles('uploads')})
+});
+
+var mmupload = multer({ storage: storage })
+var cpUpload = mmupload.fields([{ name: 'uservideo', maxCount: 1 }])
+app.post('/text', cpUpload,function (req, res) {
+	console.log("ds"+req.body.txt);
+	console.log("files"+req.files['uservideo'][0]);
+	 res.send("Success");
 });
 
 app.listen(3000,function(){
